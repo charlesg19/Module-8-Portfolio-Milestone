@@ -170,8 +170,10 @@ q - Quit""")
                 add_choice = input("Enter an item to add:\n")
                 if add_choice == item1.item_name:
                     x.add_item(item1)
+                    print("Item added.")
                 elif add_choice == item2.item_name:
                     x.add_item(item2)
+                    print("Item added.")
                 else:
                     print("Item not found. Would you like to add a new item?")
                     addchoice = input("Enter \"Yes\" or \"No\":\n")
@@ -194,12 +196,13 @@ q - Quit""")
             elif selection == "m":
                 x.names_in_cart_list()
                 mod_choice = input("Enter name of item to modify:\n")
-                for names in x.cart_items:
-                    if names.item_name == mod_choice:
-                        mod_choice = names
-                        x.modify_item(mod_choice)
-                if mod_choice not in x.list_for_names:
-                    print("Item not found. Nothing modified")
+                if (mod_choice in x.list_for_names) == False:
+                    print("Item not found in cart. Nothing modified.")
+                else:
+                    for names in x.cart_items:
+                        if names.item_name == mod_choice:
+                            mod_choice = names
+                            x.modify_item(mod_choice)
                         
  
             elif selection == "i":
