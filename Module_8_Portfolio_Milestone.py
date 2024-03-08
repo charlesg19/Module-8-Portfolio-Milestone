@@ -97,12 +97,14 @@ class ShoppingCart:
            
     def change_quantity(self):
         self.names_in_cart_list()
-        change_item_quantity = input("Enter the item name:\n")
-        for individual_items in self.cart_items:
-            if individual_items.item_name == change_item_quantity:
-                individual_items.updateQuantity()
-            elif individual_items.item_name != change_item_quantity:
-                print("Invalid selection: item not in cart.")
+        change_item_quantity = input("Enter the item name to change quantity:\n")
+        if change_item_quantity in self.list_for_names:
+            for individual_items in self.cart_items:
+                if individual_items.item_name == change_item_quantity:
+                    individual_items.updateQuantity()           
+                    print("Quantity updated.")
+        else:
+            print("Item not found. Nothing updated.")
 
     def view_item_info(self):
         self.names_in_cart_list()
