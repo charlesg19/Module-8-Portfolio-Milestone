@@ -56,8 +56,6 @@ class ShoppingCart:
             else:
                 print("Update item information for item \"{}\":".format(item.item_name))
                 item.updateValues()
-        else:
-            print("Item not found in cart. Nothing modified.")
  
     def get_num_items_in_cart(self):
         num_items_in_cart = 0
@@ -196,13 +194,13 @@ q - Quit""")
             elif selection == "m":
                 x.names_in_cart_list()
                 mod_choice = input("Enter name of item to modify:\n")
-                if mod_choice == item1.item_name:
-                    x.modify_item(item1)              
-                elif mod_choice == item2.item_name:
-                    x.modify_item(item2)
-                else:
-                    item3 = ItemToPurchase
-                    x.modify_item(item3)
+                for names in x.cart_items:
+                    if names.item_name == mod_choice:
+                        mod_choice = names
+                        x.modify_item(mod_choice)
+                if mod_choice not in x.list_for_names:
+                    print("Item not found. Nothing modified")
+                        
  
             elif selection == "i":
                 x.print_description()
