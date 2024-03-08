@@ -38,11 +38,16 @@ class ShoppingCart:
         self.cart_items.append(item)
  
     def remove_item(self, item_to_remove):
+        check_if_its_there = []
         for names in self.cart_items:
-            if names.item_name == item_to_remove:
-                self.cart_items.remove(names)
-            else:
-                print("Item not found in cart. Nothing removed.")
+            check_if_its_there.append(names.item_name)
+        if item_to_remove in check_if_its_there:
+            self.cart_items.remove(names)
+            print("Item removed sucessfully.")
+        else:
+            print("Item not found. Nothing removed.")
+            
+
  
     def modify_item(self, item: ItemToPurchase):
         if item in self.cart_items:
@@ -91,22 +96,39 @@ class ShoppingCart:
             print("{}: {}".format(items.item_name, items.item_description))
            
     def change_quantity(self):
-        for individual_items in self.cart_items:
-            print(individual_items.item_name, "|", end="")
+        self.names_in_cart_list()
         change_item_quantity = input("Enter the item name:\n")
         for individual_items in self.cart_items:
             if individual_items.item_name == change_item_quantity:
                 individual_items.updateQuantity()
             elif individual_items.item_name != change_item_quantity:
                 print("Invalid selection: item not in cart.")
+
+    def view_item_info(self):
+        self.names_in_cart_list()
+        item_to_view = input("Enter the item to view info for:\n")
+        print()
+        if item_to_view in self.list_for_names:
+            for items in self.cart_items:
+                if item_to_view == items.item_name:
+                    print("Name:", items.item_name)
+                    print("Description:", items.item_description)
+                    print("Price: ${:.2f}".format(items.item_price))
+                    print("Quantity:", items.item_quantity)
+        else:
+            print("Not in cart.")
+
    
-    ##IM NOT SURE HOW TO USE THIS METHOD WITHIN OTHER METHODS, BUT IF IT WORKS FUCKIN GREAT
-    ##OTHERWISE COPY-PASTE THIS AFTER TESTING
-    def names_in_cart_list():
-        list_for_names = []
+    def names_in_cart_list(self):
+        self.list_for_names = []
         for named_items in self.cart_items:
-            list_for_names.append(named_items.item_name)
-        print(list_for_names)
+            self.list_for_names.append(named_items.item_name)
+        print("Items in cart: |", end=" ")
+        for names in self.list_for_names:
+            print(names, "|", end=" ")
+        print()
+
+
 def main():
  
 ###Module 4 Portfolio Milestone
@@ -125,7 +147,7 @@ def main():
     print("Total: ${:.2f}".format(items_cost_sum))
  
 ###Module 6 Portfolio Milestone
-    print("\n-------------\nCustomer Shopping Cart")
+    print("\n--------------------\nCustomer Shopping Cart")
     customer_cart = ShoppingCart("Default Name", "Default Date")
     customer_cart.getCustNameDate(input("Enter customer name:\n"), input("Enter current date:\n"))
  
@@ -141,17 +163,19 @@ o - Output shopping cart
 q - Quit""")
         selection = input("Choose an option: ")
         while selection != "q":
+            print()
             if selection == "a":
-                print("Items that can be added to the cart: {}, {}".format(item1.item_name, item2.item_name))
-                add_choice = input("Enter name of item to add to cart:\n")
+                print("Items avalible for addition to the cart: {}, {}".format(item1.item_name, item2.item_name))
+                print("    (if the item to add is not in the above list you will be prompted to add the item manually)")
+                add_choice = input("Enter an item to add:\n")
                 if add_choice == item1.item_name:
                     x.add_item(item1)
                 elif add_choice == item2.item_name:
                     x.add_item(item2)
                 else:
                     print("Item not found. Would you like to add a new item?")
-                    addchoice = input("Enter yes or no")
-                    if addchoice == "yes":
+                    addchoice = input("Enter \"Yes\" or \"No\":\n")
+                    if (addchoice == "Yes") or (addchoice == "yes"):
                         newitem = ItemToPurchase()
                         newitem.updateValues()
                         x.add_item(newitem)
@@ -163,14 +187,12 @@ q - Quit""")
                 x.change_quantity()
  
             elif selection == "r":
-                item_for_removal = input("Enter the name of the item to be removed:")
+                x.names_in_cart_list()
+                item_for_removal = input("Enter the name of the item to be removed:\n")
                 x.remove_item(item_for_removal)
  
             elif selection == "m":
-                print("Modify item:", item1.item_name, item2.item_name)
-                ##MAKE THE ABOVE LINE MORE LIKE IN THE V SECTION - THIS ONLY INCLUDED ITEMS 1 AND 2
-                ##SEE ABOVE COMMENT
-                ##SERIOUSLY DONT MISS IT
+                x.names_in_cart_list()
                 mod_choice = input("Enter name of item to modify:\n")
                 if mod_choice == item1.item_name:
                     x.modify_item(item1)              
@@ -187,25 +209,23 @@ q - Quit""")
                 x.print_total()
                
             elif selection == "v":
-                print("Items in cart:")
-                print("|", end=" ")
-                for individual_items in x.cart_items:
-                    print(individual_items.item_name, "|", end="")
-                seeiteminfo = input("\nEnter the item name from the above list to see item details:")
-                for individual_items in x.cart_items:
-                    if individual_items.item_name == seeiteminfo:
-                        print("Name:", individual_items.item_name)
-                        print("Description:", individual_items.item_description)
-                        print("Price: ${:.2f}".format(individual_items.item_price))
-                        print("Quantity:", individual_items.item_quantity)
-                        print("Item total price: ${:.2f}".format(individual_items.item_price * individual_items.item_quantity))
-                    elif individual_items.item_name != seeiteminfo:
-                        print("Invalid selection: item not in cart.")
+                x.view_item_info()
+
+            elif selection == "Menu":
+                        print("""MENU
+a - Add item to cart
+c - Change item quantity
+r - Remove item from cart
+m - Modify item
+v - View an items Details
+i - Output items' descriptions
+o - Output shopping cart
+q - Quit""")
  
             else:
                 print("Enter a valid selection")
  
-            selection = input("Choose an option:\n")
+            selection = input("\nChoose an option (type \"Menu\" to see list of options):\n")
  
        
             
