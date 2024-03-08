@@ -152,6 +152,9 @@ def main():
     print("\n--------------------\nCustomer Shopping Cart")
     customer_cart = ShoppingCart("Default Name", "Default Date")
     customer_cart.getCustNameDate(input("Enter customer name:\n"), input("Enter current date:\n"))
+
+###Module 8 Portfolio Miltstone
+    print("\nCustomer Name: {}\nCurrent Date: {}\n".format(customer_cart.customer_name, customer_cart.current_date))
  
     def print_menu(x):
         print("""MENU
@@ -162,7 +165,7 @@ m - Modify item
 v - View an items Details
 i - Output items' descriptions
 o - Output shopping cart
-q - Quit""")
+q - Quit\n""")
         selection = input("Choose an option: ")
         while selection != "q":
             print()
