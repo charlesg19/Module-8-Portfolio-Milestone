@@ -42,7 +42,9 @@ class ShoppingCart:
         for names in self.cart_items:
             check_if_its_there.append(names.item_name)
         if item_to_remove in check_if_its_there:
-            self.cart_items.remove(names)
+            for names in self.cart_items:
+                if names.item_name == item_to_remove:
+                    self.cart_items.remove(names)
             print("Item removed sucessfully.")
         else:
             print("Item not found. Nothing removed.")
